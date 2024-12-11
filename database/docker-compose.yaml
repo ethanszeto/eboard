@@ -2,7 +2,7 @@
 services:
   mongodb:
     image: mongo:latest
-    container_name: nusci-database
+    container_name: database
     env_file:
       - .env
     environment:
