@@ -1,10 +1,11 @@
 import * as React from "react";
-import { Button } from "@/components/ui/button";
+import { Button } from "@shadcn/button";
+import Task from "@components/Task"
 
 export default function Home() {
   return (
     <>
-      <Button>Click me</Button>
+      <Task></Task>
     </>
   );
 }
