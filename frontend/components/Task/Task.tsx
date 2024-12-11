@@ -5,24 +5,26 @@ import {
     DialogContent,
     DialogTrigger,
 } from "@shadcn/dialog"
+import { TaskStatus, Team } from "@components/types";
 
-type TaskProps = {
+export type TaskProps = {
     headline: string
     description: string
-    status: string
+    status: TaskStatus
+    team: Team
 }
 
-export default function Task() {
+export function Task({ headline, description, status, team }: TaskProps) {
 return (
     <>
-    <Dialog>
-        <DialogTrigger>
-            <TaskCard />
-        </DialogTrigger>
-        <DialogContent>
-            <TaskDialogue title="Task" description="Task Description" />
-        </DialogContent>
-    </Dialog>
+        <Dialog>
+            <DialogTrigger>
+                <TaskCard headline={headline} description={description} status={status} />
+            </DialogTrigger>
+            <DialogContent>
+                <TaskDialogue headline={headline} description={description} status={status} team={team} />
+            </DialogContent>
+        </Dialog>
     </>
 )
 

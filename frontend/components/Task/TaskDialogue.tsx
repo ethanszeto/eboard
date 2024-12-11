@@ -3,21 +3,26 @@ import {
     DialogHeader,
     DialogTitle
 } from  "@shadcn/dialog"
+import { TaskStatus, Team } from "@components/types"
 
 type TaskDialogueProps = {
-    title: string
+    headline: string
     description: string
+    status: TaskStatus
+    team: Team
 }
 
-export default function TaskDialogue({title, description}: TaskDialogueProps) {
+export default function TaskDialogue({headline, description, status, team}: TaskDialogueProps) {
     return (
         <>
             <DialogHeader>
-                <DialogTitle>{title}</DialogTitle>
+                <DialogTitle>{headline}</DialogTitle>
             <DialogDescription>
                 {description}
             </DialogDescription>
-            
+            {team}
+            <br></br>
+            {status}
             </DialogHeader>
         </>
     )

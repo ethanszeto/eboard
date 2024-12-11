@@ -1,3 +1,4 @@
+import { TaskStatus } from "@components/types"
 import {
     Card,
     CardContent,
@@ -7,16 +8,22 @@ import {
     CardTitle,
   } from "@shadcn/card"
 
-export default function TaskCard() {
+type TaskCardProps = {
+    headline: string
+    description: string
+    status: TaskStatus
+}
+
+export default function TaskCard({ headline, description, status }: TaskCardProps) {
     return (
         <>
-            <Card>
+            <Card className="flex-1">
                 <CardHeader>
-                    <CardTitle>Card Title</CardTitle>
-                    <CardDescription>Card Description</CardDescription>
+                    <CardTitle>{headline}asjdfbvskajskdfhbisfdhfksbfmsdnfdfhbaskdjfbskdjfhbsdkfjhbsfkdjhb</CardTitle>
+                    {/* <CardDescription>{description}</CardDescription> */}
                 </CardHeader>
                 <CardContent>
-                    <p>Card Content</p>
+                    {status}
                 </CardContent>
             </Card>
         </>

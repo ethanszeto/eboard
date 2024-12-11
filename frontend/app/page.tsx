@@ -1,11 +1,13 @@
 import * as React from "react";
-import { Button } from "@shadcn/button";
-import Task from "@components/Task"
+import { Board } from "@components/Board";
+import { Separator } from "@radix-ui/react-separator";
 
 export default function Home() {
+
+  
   return (
     <>
-      <Task></Task>
+      <Board />
     </>
   );
 }
