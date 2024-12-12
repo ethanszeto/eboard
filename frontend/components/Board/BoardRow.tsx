@@ -1,17 +1,7 @@
 "use client";
 
-import {
-  DndContext,
-  closestCenter,
-  DragOverlay,
-  useDraggable,
-  useDroppable,
-  KeyboardSensor,
-  PointerSensor,
-  useSensor,
-  useSensors,
-} from "@dnd-kit/core";
-import { SortableContext, verticalListSortingStrategy, sortableKeyboardCoordinates } from "@dnd-kit/sortable";
+import { DndContext, closestCenter, PointerSensor, useSensor, useSensors } from "@dnd-kit/core";
+import { SortableContext, verticalListSortingStrategy } from "@dnd-kit/sortable";
 import { BoardColumn } from "./BoardColumn";
 import { Box } from "@components/Box";
 import { TaskFields, Team, taskStatuses, TaskStatus } from "@components/types";
@@ -19,24 +9,7 @@ import { Badge } from "@shadcn/badge";
 import { Separator } from "@components/Separator";
 import { useState } from "react";
 
-type OutlineBadgeProps = {
-  children: React.ReactNode;
-};
-
-function OutlineBadge({ children }: OutlineBadgeProps) {
-  return (
-    <Badge variant="secondary" className="w-full text-sm">
-      {children}
-    </Badge>
-  );
-}
-
-export type BoardRowProps = {
-  team: Team;
-  tasks: TaskFields[];
-};
-
-export function BoardRow({ team, tasks }: BoardRowProps) {
+export function BoardRow({ team, tasks }: { team: Team; tasks: TaskFields[] }) {
   const [tasksIn, setTasksIn] = useState<{ [key in TaskStatus]: TaskFields[] }>(() => {
     const initial: { [key in TaskStatus]: TaskFields[] } = {
       New: [],
@@ -52,8 +25,11 @@ export function BoardRow({ team, tasks }: BoardRowProps) {
   });
 
   const sensors = useSensors(
-    useSensor(PointerSensor),
-    useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates })
+    useSensor(PointerSensor, {
+      activationConstraint: {
+        distance: 5, // Drag starts after moving 5px
+      },
+    })
   );
 
   const handleDragEnd = (event: any) => {
@@ -91,8 +67,10 @@ export function BoardRow({ team, tasks }: BoardRowProps) {
         <Box className="flex flex-row gap-4">
           {taskStatuses.map((status, i) => (
             <>
-              <div key={i} className="flex flex-col gap-2 basis-1/5">
-                <OutlineBadge>{status}</OutlineBadge>
+              <div key={status} className="flex flex-col gap-2 basis-1/5">
+                <Badge variant="secondary" className="w-full text-sm">
+                  {status}
+                </Badge>
                 <SortableContext items={tasksIn[status].map((task) => task.headline)} strategy={verticalListSortingStrategy}>
                   <BoardColumn tasks={tasksIn[status]} droppableId={status} />
                 </SortableContext>

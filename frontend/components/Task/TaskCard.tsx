@@ -7,10 +7,10 @@ type TaskCardProps = {
   status: TaskStatus;
 };
 
-export default function TaskCard({ headline, description, status }: TaskCardProps) {
+export default function TaskCard({ headline, description, status, ...props }: TaskCardProps) {
   return (
     <>
-      <Card>
+      <Card {...props}>
         <CardHeader>
           <CardTitle>{headline}</CardTitle>
           <CardDescription>{description}</CardDescription>
