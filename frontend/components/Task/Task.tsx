@@ -1,5 +1,7 @@
 import { useDraggable } from "@dnd-kit/core";
 import TaskCard from "./TaskCard";
+import TaskDialogue from "./TaskDialogue";
+import { Dialog, DialogContent, DialogTrigger } from "@shadcn/dialog";
 import { TaskFields } from "@components/types";
 
 export function Task(props: TaskFields) {
@@ -14,8 +16,15 @@ export function Task(props: TaskFields) {
   };
 
   return (
-    <div ref={setNodeRef} style={style} {...attributes} {...listeners}>
-      <TaskCard {...props} />
-    </div>
+    <Dialog>
+      <DialogTrigger>
+        <div ref={setNodeRef} style={style} {...attributes} {...listeners}>
+          <TaskCard {...props} />
+        </div>
+      </DialogTrigger>
+      <DialogContent className="p-6 h-[75vh]">
+        <TaskDialogue headline={props.headline} description={props.description} status={props.status} team={props.team} />
+      </DialogContent>
+    </Dialog>
   );
 }
