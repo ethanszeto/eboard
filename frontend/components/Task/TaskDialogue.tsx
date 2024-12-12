@@ -17,6 +17,8 @@ export default function TaskDialogue({ headline, description, status, team }: Ta
         {team}
         <br></br>
         {status}
+        <br></br>
+        Some way to modify the task
       </DialogHeader>
     </>
   );
