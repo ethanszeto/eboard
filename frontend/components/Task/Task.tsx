@@ -1,30 +1,35 @@
-import { useDraggable } from "@dnd-kit/core";
+import { DndContext, useSensor, useSensors, PointerSensor } from "@dnd-kit/core";
 import TaskCard from "./TaskCard";
 import TaskDialogue from "./TaskDialogue";
 import { Dialog, DialogContent, DialogTrigger } from "@shadcn/dialog";
 import { TaskFields } from "@components/types";
 
 export function Task(props: TaskFields) {
-  const { attributes, listeners, setNodeRef, transform, transition } = useDraggable({
-    id: props.headline,
-    data: { status: props.status },
-  });
-
-  const style = {
-    transform: transform ? `translate3d(${transform.x}px, ${transform.y}px, 0)` : undefined,
-    transition,
-  };
+  // Configure PointerSensor with an activation constraint
+  const sensors = useSensors(
+    useSensor(PointerSensor, {
+      activationConstraint: {
+        distance: 100, // Drag starts after 5px movement
+      },
+    })
+  );
 
   return (
-    <Dialog>
-      <DialogTrigger>
-        <div ref={setNodeRef} style={style} {...attributes} {...listeners}>
-          <TaskCard {...props} />
-        </div>
-      </DialogTrigger>
-      <DialogContent className="p-6 h-[75vh]">
-        <TaskDialogue headline={props.headline} description={props.description} status={props.status} team={props.team} />
-      </DialogContent>
-    </Dialog>
+    <DndContext sensors={sensors}>
+      <Dialog>
+        <DialogTrigger>
+          <div
+            draggable
+            id={props.headline} // Ensure unique ID
+            data-status={props.status} // Add data for DnD context
+          >
+            <TaskCard {...props} />
+          </div>
+        </DialogTrigger>
+        <DialogContent className="p-6 h-[75vh]">
+          <TaskDialogue headline={props.headline} description={props.description} status={props.status} team={props.team} />
+        </DialogContent>
+      </Dialog>
+    </DndContext>
   );
 }
