@@ -1,24 +1,21 @@
-import TaskDialogue from "./TaskDialogue";
+import { useDraggable } from "@dnd-kit/core";
 import TaskCard from "./TaskCard";
-import { Dialog, DialogContent, DialogTrigger } from "@shadcn/dialog";
-import { TaskStatus, Team } from "@components/types";
+import { TaskFields } from "@components/types";
 
-export type TaskProps = {
-  headline: string;
-  description: string;
-  status: TaskStatus;
-  team: Team;
-};
+export function Task(props: TaskFields) {
+  const { attributes, listeners, setNodeRef, transform, transition } = useDraggable({
+    id: props.headline,
+    data: { status: props.status },
+  });
 
-export function Task({ headline, description, status, team }: TaskProps) {
+  const style = {
+    transform: transform ? `translate3d(${transform.x}px, ${transform.y}px, 0)` : undefined,
+    transition,
+  };
+
   return (
-    <Dialog>
-      <DialogTrigger>
-        <TaskCard headline={headline} description={description} status={status} />
-      </DialogTrigger>
-      <DialogContent className="p-6 h-[75vh]">
-        <TaskDialogue headline={headline} description={description} status={status} team={team} />
-      </DialogContent>
-    </Dialog>
+    <div ref={setNodeRef} style={style} {...attributes} {...listeners}>
+      <TaskCard {...props} />
+    </div>
   );
 }

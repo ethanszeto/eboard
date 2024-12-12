@@ -1,15 +1,21 @@
+import { useDroppable } from "@dnd-kit/core";
+import { TaskFields } from "@components/types";
 import Task from "@components/Task";
-import type { TaskFields } from "@components/types";
 
 export type BoardColumnProps = {
   tasks: TaskFields[];
+  droppableId: string;
 };
 
-export function BoardColumn({ tasks }: BoardColumnProps) {
+export function BoardColumn({ tasks, droppableId }: BoardColumnProps) {
+  const { setNodeRef } = useDroppable({
+    id: droppableId,
+  });
+
   return (
-    <div className="flex flex-col gap-2">
+    <div ref={setNodeRef} className="flex flex-col gap-2">
       {tasks.map((task, i) => (
-        <Task key={i} {...task} />
+        <Task key={task.headline} {...task} />
       ))}
     </div>
   );
