@@ -1,24 +1,18 @@
-import { TaskStatus, TaskType } from "@components/types";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@shadcn/card";
+import { TaskType } from "@components/types";
+import { Card, CardDescription, CardFooter, CardHeader, CardTitle } from "@shadcn/card";
 import { Badge } from "@shadcn/badge";
 import { Box } from "@components/Box";
+import { formatDate } from "@components/utils";
 
 type TaskCardProps = {
   headline: string;
-  description: string;
-  status: TaskStatus;
+  description?: string;
   taskType: TaskType;
-  date: Date;
+  date?: Date;
 };
 
-export default function TaskCard({ headline, description, status, taskType, date, ...props }: TaskCardProps) {
-  const dateString = date?.toLocaleString("en-US", {
-    weekday: "short",
-    month: "short",
-    day: "numeric",
-    ...(date.getHours() === 0 && date.getMinutes() === 0 ? {} : { hour: "numeric", minute: "2-digit", hour12: true }),
-  });
-
+export default function TaskCard({ headline, description, taskType, date, ...props }: TaskCardProps) {
+  const dateString = formatDate(date);
   return (
     <>
       <Card {...props}>
@@ -30,7 +24,7 @@ export default function TaskCard({ headline, description, status, taskType, date
         <CardFooter>
           <Box className="flex flex-wrap gap-1">
             <Badge>{taskType}</Badge>
-            {date !== undefined && <Badge variant="destructive">{dateString}</Badge>}
+            {dateString !== undefined && <Badge variant="destructive">{dateString}</Badge>}
           </Box>
         </CardFooter>
       </Card>

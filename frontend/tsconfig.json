@@ -21,6 +21,8 @@
     "paths": {
       "@shadcn/*": ["./@/components/components/ui/*"],
       "@/components/lib/*": ["./@/components/lib/*"],
+      "@/components/hooks/*": ["./@/components/hooks/*"],
+      "@/components/components/ui/*": ["./@/components/components/ui/*"],
       "@components/*": ["./components/*"]
     }
   },

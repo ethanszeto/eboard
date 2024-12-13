@@ -1,17 +1,18 @@
 "use client";
 
-import { DndContext, closestCenter, PointerSensor, useSensor, useSensors } from "@dnd-kit/core";
+import { DndContext, closestCenter, PointerSensor, useSensor, useSensors, DragEndEvent } from "@dnd-kit/core";
 import { SortableContext, verticalListSortingStrategy } from "@dnd-kit/sortable";
 import { BoardColumn } from "./BoardColumn";
 import { Box } from "@components/Box";
-import { TaskFields, Team, taskStatuses, TaskStatus } from "@components/types";
+import { TaskProps, Team, taskStatuses, TaskStatus } from "@components/types";
 import { Badge } from "@shadcn/badge";
 import { Separator } from "@components/Separator";
 import { useState } from "react";
+import React from "react";
 
-export function BoardRow({ team, tasks }: { team: Team; tasks: TaskFields[] }) {
-  const [tasksIn, setTasksIn] = useState<{ [key in TaskStatus]: TaskFields[] }>(() => {
-    const initial: { [key in TaskStatus]: TaskFields[] } = {
+export function BoardRow({ team, tasks }: { team: Team; tasks: TaskProps[] }) {
+  const [tasksIn, setTasksIn] = useState<{ [key in TaskStatus]: TaskProps[] }>(() => {
+    const initial: { [key in TaskStatus]: TaskProps[] } = {
       New: [],
       "On Hold": [],
       Acknowledged: [],
@@ -32,12 +33,12 @@ export function BoardRow({ team, tasks }: { team: Team; tasks: TaskFields[] }) {
     })
   );
 
-  const handleDragEnd = (event: any) => {
+  const handleDragEnd = (event: DragEndEvent) => {
     const { active, over } = event;
     if (!over) return;
 
-    const fromStatus = active.data.current?.status;
-    const toStatus = over.id;
+    const fromStatus = active.data.current?.status as TaskStatus;
+    const toStatus = over.id as TaskStatus;
 
     if (fromStatus === toStatus) return;
 
@@ -66,17 +67,17 @@ export function BoardRow({ team, tasks }: { team: Team; tasks: TaskFields[] }) {
       <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
         <Box className="flex flex-row gap-4">
           {taskStatuses.map((status, i) => (
-            <>
-              <div key={status} className="flex flex-col gap-2 basis-1/5">
+            <React.Fragment key={status}>
+              <Box className="flex flex-col gap-2 basis-1/5">
                 <Badge variant="secondary" className="w-full text-sm">
                   {status}
                 </Badge>
                 <SortableContext items={tasksIn[status].map((task) => task.headline)} strategy={verticalListSortingStrategy}>
                   <BoardColumn tasks={tasksIn[status]} droppableId={status} />
                 </SortableContext>
-              </div>
+              </Box>
               {i < 4 && <Separator />}
-            </>
+            </React.Fragment>
           ))}
         </Box>
       </DndContext>

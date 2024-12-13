@@ -1,11 +1,11 @@
 import { BoardRow } from "./BoardRow";
 import { Card } from "@shadcn/card";
 import { Separator } from "@components/Separator";
-import { teams, Team, TaskFields } from "@components/types";
-import { SprintFields } from "@components/types";
+import { teams, Team, TaskProps } from "@components/types";
+import { SprintProps } from "@components/types";
 
-export function Board({ _id, name, week, semester, year, status, tasks, creationTime, modificationTime }: SprintFields) {
-  const tasksFor: { [key in Team]: TaskFields[] } = {
+export function Board({ name, week, semester, year, status, tasks, creationTime, modificationTime }: SprintProps) {
+  const tasksFor: { [key in Team]: TaskProps[] } = {
     Eboard: [],
     Communications: [],
     Design: [],

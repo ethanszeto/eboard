@@ -21,7 +21,7 @@ export type Team = (typeof teams)[number];
 
 export type Semester = "Spring" | "Fall" | "Summer 1" | "Summer 2";
 
-export type TaskFields = {
+export type TaskProps = {
   _id: string;
   status: TaskStatus;
   taskType: TaskType;
@@ -33,14 +33,14 @@ export type TaskFields = {
   modificationTime: Date;
 };
 
-export type SprintFields = {
+export type SprintProps = {
   _id: string;
   name?: string;
   week: number;
   semester: Semester;
   year: number;
   status: SprintStatus;
-  tasks: TaskFields[];
+  tasks: TaskProps[];
   creationTime: Date;
   modificationTime: Date;
 };

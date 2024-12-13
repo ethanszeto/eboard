@@ -1,9 +1,9 @@
 import { useDroppable } from "@dnd-kit/core";
-import { TaskFields } from "@components/types";
+import { TaskProps } from "@components/types";
 import Task from "@components/Task";
 
 export type BoardColumnProps = {
-  tasks: TaskFields[];
+  tasks: TaskProps[];
   droppableId: string;
 };
 
