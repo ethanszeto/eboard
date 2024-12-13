@@ -1,8 +1,9 @@
 import Connection from "../db/connection.js";
 import mongoose from "mongoose";
-import { Validate, integer } from "./utils.js";
+import { Validate, date, integer, string } from "./utils.js";
 import Task from "../schemas/task.js";
 import TaskStatus from "../schemas/enums/taskStatus.js";
+import TaskType from "../schemas/enums/taskType.js";
 
 export default class TaskController {
   /**
@@ -35,6 +36,8 @@ export default class TaskController {
       req.body,
       {
         status: { type: string, enum: TaskStatus.listr(), default: TaskStatus.new.toString() },
+        itemType: { type: string, enum: TaskType.listr(), default: TaskType.note.toString() },
+        date: { type: date },
         team: { type: string, enum: Team.listr(), required: true },
         headline: { type: string, required: true },
         description: { type: string },
