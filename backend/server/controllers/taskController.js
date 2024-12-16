@@ -36,11 +36,12 @@ export default class TaskController {
       req.body,
       {
         status: { type: string, enum: TaskStatus.listr(), default: TaskStatus.new.toString() },
-        itemType: { type: string, enum: TaskType.listr(), default: TaskType.note.toString() },
+        taskType: { type: string, enum: TaskType.listr(), default: TaskType.note.toString() },
         date: { type: date },
         team: { type: string, enum: Team.listr(), required: true },
         headline: { type: string, required: true },
         description: { type: string },
+        notes: { type: string },
       },
       { override: ["creationTime", "modificationTime"] }
     );

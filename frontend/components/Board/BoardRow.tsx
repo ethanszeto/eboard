@@ -14,7 +14,7 @@ export function BoardRow({ team, tasks }: { team: Team; tasks: TaskProps[] }) {
   const [tasksIn, setTasksIn] = useState<{ [key in TaskStatus]: TaskProps[] }>(() => {
     const initial: { [key in TaskStatus]: TaskProps[] } = {
       New: [],
-      "On Hold": [],
+      Upcoming: [],
       Acknowledged: [],
       "In Progress": [],
       Complete: [],

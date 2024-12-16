@@ -1,4 +1,4 @@
-export const taskStatuses = ["New", "Acknowledged", "In Progress", "Complete", "On Hold"] as const;
+export const taskStatuses = ["Upcoming", "New", "Acknowledged", "In Progress", "Complete"] as const;
 export type TaskStatus = (typeof taskStatuses)[number];
 
 export const taskType = ["Check In", "Note", "Action Item"] as const;
