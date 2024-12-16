@@ -1,29 +1,20 @@
 "use client";
 
-import {
-  DndContext,
-  closestCenter,
-  PointerSensor,
-  useSensor,
-  useSensors,
-  DragStartEvent,
-  DragOverEvent,
-  DragEndEvent,
-} from "@dnd-kit/core";
+import { DndContext, closestCenter, PointerSensor, useSensor, useSensors, DragEndEvent } from "@dnd-kit/core";
 import { SortableContext, verticalListSortingStrategy } from "@dnd-kit/sortable";
 import { BoardColumn } from "./BoardColumn";
 import { Box } from "@components/Box";
+import { TaskProps, taskStatuses, TaskStatus } from "@components/types";
 import { Badge } from "@shadcn/badge";
 import { Separator } from "@components/Separator";
 import { useState } from "react";
 import React from "react";
-import { TaskProps, TaskStatus, taskStatuses } from "@components/types";
 
 export function BoardRow({ tasks }: { tasks: TaskProps[] }) {
   const [tasksIn, setTasksIn] = useState<{ [key in TaskStatus]: TaskProps[] }>(() => {
     const initial: { [key in TaskStatus]: TaskProps[] } = {
-      Upcoming: [],
       New: [],
+      Upcoming: [],
       Acknowledged: [],
       "In Progress": [],
       Complete: [],
@@ -34,88 +25,41 @@ export function BoardRow({ tasks }: { tasks: TaskProps[] }) {
     return initial;
   });
 
-  const [previewTasksIn, setPreviewTasksIn] = useState(tasksIn);
-
   const sensors = useSensors(
     useSensor(PointerSensor, {
       activationConstraint: {
-        distance: 5,
+        distance: 5, // Drag starts after moving 5px
       },
     })
   );
 
-  const handleDragStart = (event: DragStartEvent) => {
-    setPreviewTasksIn(tasksIn);
-  };
-
-  const handleDragOver = (event: DragOverEvent) => {
+  const handleDragEnd = (event: DragEndEvent) => {
     const { active, over } = event;
-    if (!over || !active) return;
+    if (!over) return;
 
     const fromStatus = active.data.current?.status as TaskStatus;
     const toStatus = over.id as TaskStatus;
 
     if (fromStatus === toStatus) return;
 
-    const fromTasks = [...previewTasksIn[fromStatus]];
-    const toTasks = [...previewTasksIn[toStatus]];
+    const fromTasks = [...tasksIn[fromStatus]];
+    const toTasks = [...tasksIn[toStatus]];
 
     const movingTaskIndex = fromTasks.findIndex((task) => task.headline === active.id);
-    if (movingTaskIndex === -1) return;
-
     const [movingTask] = fromTasks.splice(movingTaskIndex, 1);
+
+    movingTask.status = toStatus;
     toTasks.push(movingTask);
 
-    setPreviewTasksIn({
-      ...previewTasksIn,
+    setTasksIn({
+      ...tasksIn,
       [fromStatus]: fromTasks,
       [toStatus]: toTasks,
     });
   };
 
-  const handleDragEnd = (event: DragEndEvent) => {
-    const { active, over } = event;
-    if (!over) {
-      setPreviewTasksIn(tasksIn); // Revert preview
-      return;
-    }
-
-    const fromStatus = active.data.current?.status as TaskStatus;
-    const toStatus = over.id as TaskStatus;
-
-    if (fromStatus === toStatus) {
-      setPreviewTasksIn(tasksIn); // No changes needed
-      return;
-    }
-
-    const fromTasks = [...tasksIn[fromStatus]];
-    const toTasks = [...tasksIn[toStatus]];
-
-    const movingTaskIndex = fromTasks.findIndex((task) => task.headline === active.id);
-    if (movingTaskIndex === -1) return;
-
-    const [movingTask] = fromTasks.splice(movingTaskIndex, 1);
-    movingTask.status = toStatus;
-    toTasks.push(movingTask);
-
-    const newTasksIn = {
-      ...tasksIn,
-      [fromStatus]: fromTasks,
-      [toStatus]: toTasks,
-    };
-
-    setTasksIn(newTasksIn);
-    setPreviewTasksIn(newTasksIn); // Sync preview state
-  };
-
   return (
-    <DndContext
-      sensors={sensors}
-      collisionDetection={closestCenter}
-      onDragStart={handleDragStart}
-      onDragOver={handleDragOver}
-      onDragEnd={handleDragEnd}
-    >
+    <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
       <Box className="flex flex-row gap-4">
         {taskStatuses.map((status, i) => (
           <React.Fragment key={status}>
@@ -123,8 +67,8 @@ export function BoardRow({ tasks }: { tasks: TaskProps[] }) {
               <Badge variant="secondary" className="w-full text-sm">
                 {status}
               </Badge>
-              <SortableContext items={previewTasksIn[status].map((task) => task.headline)} strategy={verticalListSortingStrategy}>
-                <BoardColumn tasks={previewTasksIn[status]} droppableId={status} />
+              <SortableContext items={tasksIn[status].map((task) => task.headline)} strategy={verticalListSortingStrategy}>
+                <BoardColumn tasks={tasksIn[status]} droppableId={status} />
               </SortableContext>
             </Box>
             {i < taskStatuses.length - 1 && <Separator />}
