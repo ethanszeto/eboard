@@ -36,18 +36,15 @@ export default class Connection {
       try {
         //Mongoose connect to the cluster.
         mongoose.connect(MONGODB_CONNECTION_STRING, {
-          useNewUrlParser: true,
-          useUnifiedTopology: true,
           maxPoolSize: 50,
           socketTimeoutMS: 2500,
         });
       } catch (e) {
-        throw new Error();
+        throw new Error(e);
       }
 
       // in-memory cache of the current connection
       connection = mongoose.connection;
-
       return mongoose.connection;
     } else {
       return connection;

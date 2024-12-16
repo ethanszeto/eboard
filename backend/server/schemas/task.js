@@ -12,7 +12,6 @@ const TaskSchema = new Schema(
     headline: { type: String, required: true },
     description: { type: String },
     notes: { type: String },
-    itemType: { type: String, enum: TaskType.listr(), required: true },
     date: { type: Date },
     creationTime: { type: Date, required: true },
     modificationTime: { type: Date, required: true },

@@ -12,7 +12,7 @@ const SprintSchema = new Schema(
     year: { type: Number, required: true },
     semester: { type: String, enum: Semester.listr(), required: true },
     status: { type: String, enum: SprintStatus.listr() },
-    tickets: [{ type: Schema.Types.ObjectId, ref: Task }],
+    tasks: [{ type: Schema.Types.ObjectId, ref: Task }],
     creationTime: { type: Date, required: true },
     modificationTime: { type: Date, required: true },
   },
@@ -20,6 +20,9 @@ const SprintSchema = new Schema(
     collection: "sprints",
   }
 );
+
+SprintSchema.index({ week: 1, semester: 1, year: 1 });
+
 const db = mongoose.connection.useDb("eboard");
 const Sprint = db.model("Sprints", SprintSchema);
 

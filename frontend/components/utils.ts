@@ -1,4 +1,5 @@
-export function formatDate(date: Date | undefined) {
+export function formatDate(dateString: string | undefined): string | undefined {
+  const date = dateString !== undefined ? new Date(dateString) : undefined;
   return date?.toLocaleString("en-US", {
     weekday: "short",
     month: "short",

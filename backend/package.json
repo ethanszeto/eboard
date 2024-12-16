@@ -4,7 +4,16 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "start": "nodemon index.js"
+    "start": "nodemon index.js",
+    "drop": "node --no-deprecation setup/drop.js",
+    "drop-s": "node --no-deprecation setup/drop.js -s",
+    "drop-silent": "node --no-deprecation setup/drop.js --s",
+    "reseed": "node --no-deprecation setup/reseed.js",
+    "reseed-s": "node --no-deprecation setup/reseed.js -s",
+    "reseed-silent": "node --no-deprecation setup/reseed.js --silent",
+    "reset": "node --no-deprecation setup/drop.js && node --no-deprecation setup/reseed.js",
+    "reset-s": "node --no-deprecation setup/drop.js -s && node --no-deprecation setup/reseed.js -s",
+    "reset-silent": "node --no-deprecation setup/drop.js --silent && node --no-deprecation setup/reseed.js --silent"
   },
   "repository": {
     "type": "git",

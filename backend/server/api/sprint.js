@@ -1,8 +1,10 @@
 import express from "express";
+import SprintController from "../controllers/sprintController.js";
 
-const sprintController = express.Router();
+const sprintRouter = express.Router();
 
 /** Pregenerate `n` number of sprints for the semester */
-sprintController.route("/pregenerate")
+sprintRouter.route("/pregenerate");
+sprintRouter.route("/:year/:semester/:week").get(SprintController.getSprint);
 
-export default sprintController;
+export default sprintRouter;
