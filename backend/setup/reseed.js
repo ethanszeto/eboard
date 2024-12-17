@@ -1,6 +1,6 @@
 import schemaData from "./setup.js";
 import Connection from "../server/db/connection.js";
-import { set } from "../server/util/set.js";
+import { set } from "../server/utils/set.js";
 
 const silent = process.argv.includes("--silent") || process.argv.includes("-s");
 

@@ -1,6 +1,6 @@
 export default class TaskStatus {
+  static upcoming = new TaskStatus("Upcoming");
   static new = new TaskStatus("New");
-  static onHold = new TaskStatus("On Hold");
   static acknowledged = new TaskStatus("Acknowledged");
   static inProgress = new TaskStatus("In Progress");
   static complete = new TaskStatus("Complete");

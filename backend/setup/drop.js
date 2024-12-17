@@ -1,5 +1,5 @@
 import Connection from "../server/db/connection.js";
-import { set } from "../server/util/set.js";
+import { set } from "../server/utils/set.js";
 import modelData from "./setup.js";
 
 const silent = process.argv.includes("--silent") || process.argv.includes("-s");
