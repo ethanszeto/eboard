@@ -59,7 +59,7 @@ export default function TaskDialogue({
           <Box>Last Modified: {modificationTimeString}</Box>
         </Box>
       </Box>
-      <DialogFooter></DialogFooter>
+      {/* <DialogFooter></DialogFooter> */}
     </>
   );
 }
