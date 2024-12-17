@@ -12,9 +12,9 @@ type TaskDialogueProps = {
   taskType: TaskType;
   status: TaskStatus;
   team: Team;
-  date?: Date;
-  creationTime: Date;
-  modificationTime: Date;
+  date?: string;
+  creationTime: string;
+  modificationTime: string;
 };
 
 export default function TaskDialogue({

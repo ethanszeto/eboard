@@ -8,7 +8,7 @@ type TaskCardProps = {
   headline: string;
   description?: string;
   taskType: TaskType;
-  date?: Date;
+  date?: string;
 };
 
 export default function TaskCard({ headline, description, taskType, date, ...props }: TaskCardProps) {

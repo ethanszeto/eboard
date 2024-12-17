@@ -28,9 +28,9 @@ export type TaskProps = {
   team: Team;
   headline: string;
   description?: string;
-  date?: Date;
-  creationTime: Date;
-  modificationTime: Date;
+  date?: string;
+  creationTime: string;
+  modificationTime: string;
 };
 
 export type SprintProps = {
@@ -41,6 +41,6 @@ export type SprintProps = {
   year: number;
   status: SprintStatus;
   tasks: TaskProps[];
-  creationTime: Date;
-  modificationTime: Date;
+  creationTime: string;
+  modificationTime: string;
 };
