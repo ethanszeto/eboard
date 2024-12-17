@@ -26,7 +26,7 @@ export function Task({ status, taskType, team, headline, description, date, crea
           <TaskCard headline={headline} description={description} taskType={taskType} date={date} />
         </div>
       </DialogTrigger>
-      <DialogContent className="p-6 h-[75vh]">
+      <DialogContent className="p-6 h-[75vh] min-w-[33vw]">
         <TaskDialogue
           headline={headline}
           description={description}
