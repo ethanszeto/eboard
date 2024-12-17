@@ -13,7 +13,7 @@ export function BoardColumn({ tasks, droppableId }: BoardColumnProps) {
   });
 
   return (
-    <div ref={setNodeRef} className="flex flex-col gap-2">
+    <div ref={setNodeRef} className="flex flex-col gap-2 h-full">
       {tasks.map((task, i) => (
         <Task key={task.headline + i} {...task} />
       ))}

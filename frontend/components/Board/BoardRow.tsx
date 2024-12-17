@@ -1,6 +1,6 @@
 "use client";
 
-import { DndContext, closestCenter, PointerSensor, useSensor, useSensors, DragEndEvent } from "@dnd-kit/core";
+import { DndContext, PointerSensor, useSensor, useSensors, DragEndEvent, rectIntersection } from "@dnd-kit/core";
 import { SortableContext, verticalListSortingStrategy } from "@dnd-kit/sortable";
 import { BoardColumn } from "./BoardColumn";
 import { Box } from "@components/Box";
@@ -59,7 +59,7 @@ export function BoardRow({ tasks }: { tasks: TaskProps[] }) {
   };
 
   return (
-    <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
+    <DndContext sensors={sensors} collisionDetection={rectIntersection} onDragEnd={handleDragEnd}>
       <Box className="flex flex-row gap-4">
         {taskStatuses.map((status, i) => (
           <React.Fragment key={status}>
